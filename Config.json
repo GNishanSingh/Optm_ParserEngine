@@ -1,0 +1,18 @@
+{
+    "regex": {
+        "Regex_CiscoASA": {
+            "All": [
+                "%ASA-(?P<Severity>\\d+)-(?P<MessageId>\\d+): (?P<Message>[^$]+)"
+            ],
+            "Conditional": {
+                "ConditionField": "MessageId",
+                "ParseField": "Message",
+                "Regex": {
+                    "103003": [
+                        "\\(Primary\\) Other firewall network interface (?P<interface>[^\\s]+) failed\\."
+                    ]
+                }
+            }
+        }
+    }
+}
