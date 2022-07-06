@@ -8,10 +8,13 @@ def ParseData (Data, RegexArray):
         if search:
             result.update(search.groupdict())
     if RegexArray['Conditional']:
-        for Regex in RegexArray['Conditional']['Regex'][result[RegexArray['Conditional']['ConditionField']]]:
-            search = re.search(Regex,result[RegexArray['Conditional']['ParseField']])
-            if search:
-                result.update(search.groupdict())
+        try:
+            for Regex in RegexArray['Conditional']['Regex'][result[RegexArray['Conditional']['ConditionField']]]:
+                search = re.search(Regex,result[RegexArray['Conditional']['ParseField']])
+                if search:
+                    result.update(search.groupdict())
+        except:
+            None
     return json.dumps(result,indent=4)
 def Optm_ParserEngine(configpath,Parsername,Data):
     f = open(configpath)
