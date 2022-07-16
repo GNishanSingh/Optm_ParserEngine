@@ -8,4 +8,7 @@ setup(name='Optm_ParserEngine',
       author='Gurmukhnishan Singh',
       author_email='info@gurmukhnishansingh.me',
       packages=['OptmPE'],
+      package_data=[
+            "Config.json"
+      ]
      )
