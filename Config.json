@@ -7,9 +7,12 @@
             "Conditional": {
                 "ConditionField": "MessageId",
                 "ParseField": "Message",
-                "Regex": {
-                    "103003": [
-                        "\\(Primary\\) Other firewall network interface (?P<interface>[^\\s]+) failed\\."
+                "Regexes": {
+                    "InterfaceRegex":"interface (?P<interface>[^\\s]+)"
+                },
+                "Conditions": {
+                    "103003":[
+                        "InterfaceRegex"
                     ]
                 }
             }

@@ -9,8 +9,9 @@ def ParseData (Data, RegexArray):
             result.update(search.groupdict())
     if RegexArray['Conditional']:
         try:
-            for Regex in RegexArray['Conditional']['Regex'][result[RegexArray['Conditional']['ConditionField']]]:
-                search = re.search(Regex,result[RegexArray['Conditional']['ParseField']])
+            Regexes = RegexArray['Conditional']['Conditions'][result[RegexArray['Conditional']['ConditionField']]]
+            for regex in Regexes:
+                search = re.search(RegexArray['Conditional']['Regexes'][regex],result[RegexArray['Conditional']['ParseField']])
                 if search:
                     result.update(search.groupdict())
         except:
