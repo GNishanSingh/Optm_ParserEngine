@@ -1,5 +1,6 @@
 import re, json,os
 import argparse
+from argparse import RawTextHelpFormatter
 
 def ParseData (Data, RegexArray):
     result = {}
@@ -27,18 +28,40 @@ def ShowParser():
     Config = json.load(f)
     f.close()
     return Config['Parser']
-if __name__ == '__main__':
+
+def PossibleRegex(data,Parsername):
+    f = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'Config.json'))
+    Config = json.load(f)
+    f.close()
+    regexes = Config['regex'][Parsername]['Conditional']['Regexes']
+    for reg in regexes.keys():
+        search = re.search(regexes[reg],data)
+        if search:
+            print(f'Extraction for {reg}: ',search.groupdict())
+
+            
+
+def main():
     Description = '''
 # Optimized Parser Engine
 
     '''
-    arguments = argparse.ArgumentParser(description=Description)
-    arguments.add_argument('--show',action=argparse.BooleanOptionalAction,dest='Show',help='Provide configuration file path',required=False)
-    arguments.add_argument('-p','--parsername',dest='parser',help='Provide the parser groupname contains your regex',required=False)
+    arguments = argparse.ArgumentParser(description=Description,usage="%(prog)s [options] [parameter]",formatter_class=RawTextHelpFormatter)
+    arguments.add_argument('Options',metavar='Options',choices=['Show','Parse','Test'],help='Option for command line: \nShow\nParse\nTest',type=str)
+    arguments.add_argument('-p',dest='parser',choices=ShowParser(),help='Provide the parser groupname contains your regex. Possible Values',required=)
     arguments.add_argument('-d',dest='data',help='Provide the data which you want to parse',required=False)
+    
 
     args = arguments.parse_args()
-    if args.parser:
-        print(Optm_ParserEngine(args.parser,args.data))
-    elif args.Show:
+    if args.Options == 'Parse':
+        if args.parser and args.data:
+            print(Optm_ParserEngine(args.parser,args.data))
+        else:
+            print("-p and -d argument should have value")
+    elif args.Options == 'Show':
         print('\n'.join(ShowParser()))
+    elif args.Options == 'Test':
+        if args.parser and args.data:
+            print(PossibleRegex(args.data,args.parser))
+        else:
+            print("-p and -d argument should have value")

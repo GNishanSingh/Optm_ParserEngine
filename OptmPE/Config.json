@@ -1,5 +1,5 @@
 {
-    "Parser":["CiscoASAFirewall"],
+    "Parser":["CiscoASAFirewall","FortigateFirewall"],
     "regex": {
         "CiscoASAFirewall": {
             "All": [
